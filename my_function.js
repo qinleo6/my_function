@@ -9,12 +9,19 @@ Date.prototype.Format = function(fmt) {
       "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
       "S": this.getMilliseconds() //毫秒 
   };
-  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-  for (var k in o)
-      if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  if (/(y+)/.test(fmt)){
+    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  }
+  for (var k in o){
+    var reg=new RegExp("(" + k + ")");
+    if (reg.test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    }
+  }
   return fmt;
 }
 
-//使用方法：(时间转成yyyy-MM-dd hh:mm:ss)
+//使用方法：(时间转成yyyy-MM-dd hh:mm:ss) 区分大小写
 var time1 = new Date().Format("yyyy-MM-dd");
 var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
+console.log(time1,time2);
