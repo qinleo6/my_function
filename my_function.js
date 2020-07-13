@@ -1,27 +1,57 @@
 /*时间格式化*/
-Date.prototype.Format = function(fmt) {
+Date.prototype.Format = function (fmt) {
   var o = {
-      "M+": this.getMonth() + 1, //月份 
-      "d+": this.getDate(), //日 
-      "h+": this.getHours(), //小时 
-      "m+": this.getMinutes(), //分 
-      "s+": this.getSeconds(), //秒 
-      "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-      "S": this.getMilliseconds() //毫秒 
+    "M+": this.getMonth() + 1, //月份
+    "d+": this.getDate(), //日
+    "h+": this.getHours(), //小时
+    "m+": this.getMinutes(), //分
+    "s+": this.getSeconds(), //秒
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+    S: this.getMilliseconds(), //毫秒
   };
-  if (/(y+)/.test(fmt)){
-    fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(
+      RegExp.$1,
+      (this.getFullYear() + "").substr(4 - RegExp.$1.length)
+    );
   }
-  for (var k in o){
-    var reg=new RegExp("(" + k + ")");
+  for (var k in o) {
+    var reg = new RegExp("(" + k + ")");
     if (reg.test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+      fmt = fmt.replace(
+        RegExp.$1,
+        RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length)
+      );
     }
   }
   return fmt;
-}
+};
 
 //使用方法：(时间转成yyyy-MM-dd hh:mm:ss) 区分大小写
 var time1 = new Date().Format("yyyy-MM-dd");
 var time2 = new Date().Format("yyyy-MM-dd hh:mm:ss");
-console.log(time1,time2);
+console.log(time1, time2);
+
+// 数组格式化为树状图
+function arrayToJson(arr) {
+  var ret = [];
+  var map = {};
+  // 以id和自己本身组成键值对
+  arr.forEach((item) => {
+    map[item.id] = item;
+  });
+  arr.forEach((item) => {
+    var father = map[item.pid];
+    if (father) {
+      if (father.children) {
+        father.children.push(arr[i]);
+      } else {
+        father.children = [];
+        father.children.push(arr[i]);
+      }
+    } else {
+      ret.push(arr[i]);
+    }
+  });
+  return ret;
+}
