@@ -44,16 +44,14 @@ function arrayToJson(arr) {
     var father = map[item.pid];
     if (father) {
       if (father.children) {
-        father.children.push(arr[i]);
+        father.children.push(item);
       } else {
         father.children = [];
-        father.children.push(arr[i]);
+        father.children.push(item);
       }
     } else {
-      ret.push(arr[i]);
+      ret.push(item);
     }
   });
   return ret;
 }
-console.log(4545);
-console.log(8675);
